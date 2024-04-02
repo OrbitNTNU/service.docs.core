@@ -6,3 +6,6 @@
 	path = borg
 	url = git@github.com:Vereine-Vereint/service.borg.git
 	branch = main
+[submodule "orbitgs"]
+	path = orbitgs
+	url = git@github.com:OrbitNTNU/orbitgs.git
