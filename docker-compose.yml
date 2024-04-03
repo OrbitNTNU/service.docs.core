@@ -3,7 +3,7 @@ networks:
     external: true
 
 services:
-  example:
+  docs:
     build: ./orbitgs
     restart: unless-stopped
     # ports:
@@ -14,5 +14,6 @@ services:
 
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.example.rule=Host(`${DOCS_HOST}`)"
-      - "traefik.http.routers.example.entrypoints=websecure"
+      - "traefik.http.routers.docs.rule=Host(`${DOCS_HOST}`)"
+      - "traefik.http.routers.docs.entrypoints=websecure"
+      - "traefik.http.routers.docs.middlewares=authentik@file"
