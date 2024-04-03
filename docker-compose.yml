@@ -1,19 +1,23 @@
 networks:
   traefik:
     external: true
-
 services:
-  docs:
+  orbitgs:
     build: ./orbitgs
     restart: unless-stopped
     # ports:
     #   - 80:80 # Port of service
-
     networks:
     - traefik # add to traefik network
-
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.orbitgs.rule=Host(`${DOCS_HOST}`) && PathPrefix(`/orbitgs/`)"
+      - "traefik.http.routers.orbitgs.entrypoints=websecure"
+      - "traefik.http.routers.orbitgs.middlewares=authentik@file"
+      # redirect on any other path to the /orbitgs
       - "traefik.http.routers.docs.rule=Host(`${DOCS_HOST}`)"
       - "traefik.http.routers.docs.entrypoints=websecure"
-      - "traefik.http.routers.docs.middlewares=authentik@file"
+      - "traefik.http.routers.docs.middlewares=authentik@file,docs-redirect"
+      - "traefik.http.routers.docs.service=noop@internal"
+      - "traefik.http.middlewares.docs-redirect.redirectregex.regex=^https?://[^/]+/(.*)"
+      - "traefik.http.middlewares.docs-redirect.redirectregex.replacement=https://${DOCS_HOST}/orbitgs/"
