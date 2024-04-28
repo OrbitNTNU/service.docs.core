@@ -24,7 +24,7 @@ services:
     - traefik # add to traefik network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.mainpage.rule=Host(`${DOCS_HOST}`) && PathPrefix(`/mainpage/`)"
+      - "traefik.http.routers.mainpage.rule=Host(`${DOCS_HOST}`) && PathPrefix(`/`)"
       - "traefik.http.routers.mainpage.entrypoints=websecure"
       - "traefik.http.routers.mainpage.middlewares=authentik@file"
       # redirect on any other path to the /mainpage
@@ -33,4 +33,4 @@ services:
       - "traefik.http.routers.docs.middlewares=authentik@file,docs-redirect"
       - "traefik.http.routers.docs.service=noop@internal"
       - "traefik.http.middlewares.docs-redirect.redirectregex.regex=^https?://[^/]+/(.*)"
-      - "traefik.http.middlewares.docs-redirect.redirectregex.replacement=https://${DOCS_HOST}/mainpage/"
+      - "traefik.http.middlewares.docs-redirect.redirectregex.replacement=https://${DOCS_HOST}/"
