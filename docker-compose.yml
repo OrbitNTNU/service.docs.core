@@ -3,7 +3,9 @@ networks:
     external: true
 services:
   orbitgs:
-    build: ./orbitgs
+    build: 
+      context: ./orbitgs
+      dockerfile: ./docs/Dockerfile
     restart: unless-stopped
     # ports:
     #   - 80:80 # Port of service
